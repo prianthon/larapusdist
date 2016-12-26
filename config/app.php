@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Jakarta',
 
     /*
     |--------------------------------------------------------------------------
@@ -163,8 +163,11 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
-        /* laravelcollective */
+        // laravelcollective
         Collective\Html\HtmlServiceProvider::class,
+
+        // laratrust
+        Laratrust\LaratrustServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -228,9 +231,11 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        /* laravelcollective */
+        // laravelcollective
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        // laratrust
+        'Laratrust'   => Laratrust\LaratrustFacade::class,
 
     ],
 
