@@ -14,10 +14,14 @@
           </div>
 
           <div class="panel-body">
-            Diisi dengan DataTable
+            {!! $html->table(['class'=>'table-striped']) !!}
           </div>
         </div>
       </div>
     </div>
   </div>
+@endsection
+
+@section('scripts')
+  {!! $html->scripts() !!}
 @endsection
