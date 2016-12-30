@@ -90,7 +90,15 @@ class AuthorsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, ['name'=>'required|unique:authors,name,'. $id]);
+        $author = Author::find($id);
+        $author->update($request->only('name'));
+        Session::flash("flash_notification", [
+          "level"=>"success",
+          "message"=>"Berhasil menyimpan $author->name"
+        ]);
+
+        return redirect()->route('authors.index');
     }
 
     /**
