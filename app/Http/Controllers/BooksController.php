@@ -40,7 +40,7 @@ class BooksController extends Controller
      */
     public function create()
     {
-        //
+        return view('books.create');
     }
 
     /**
