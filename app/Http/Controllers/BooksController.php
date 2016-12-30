@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Yajra\Datatables\Html\Builder;
 use Yajra\Datatables\Datatables;
 use App\Book;
+use Illuminate\Support\Facades\Session;
 
 class BooksController extends Controller
 {
@@ -28,7 +29,11 @@ class BooksController extends Controller
           })->make(true);
         }
 
-        $html = $htmlBuilder->addColumn(['data'=>'title', 'name'=>'title', 'title'=>'Judul'])->addColumn(['data'=>'amount', 'name'=>'amount', 'title'=>'Jumlah'])->addColumn(['data'=>'author.name', 'name'=>'author.name', 'title'=>'Penulis'])->addColumn(['data'=>'action', 'name'=>'action', 'title'=>'', 'orderable'=>false, 'searchable'=>false]);
+        $html = $htmlBuilder
+            ->addColumn(['data'=>'title', 'name'=>'title', 'title'=>'Judul'])
+            ->addColumn(['data'=>'amount', 'name'=>'amount', 'title'=>'Jumlah'])
+            ->addColumn(['data'=>'author.name', 'name'=>'author.name', 'title'=>'Penulis'])
+            ->addColumn(['data'=>'action', 'name'=>'action', 'title'=>'', 'orderable'=>false, 'searchable'=>false]);
 
         return view('books.index')->with(compact('html'));
     }
@@ -51,7 +56,41 @@ class BooksController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+          'title'     => 'required|unique:books,title',
+          'author_id' => 'required|exists:authors,id',
+          'amount'    => 'required|numeric',
+          'cover'     => 'image|max:2048'
+        ]);
+
+        $book = Book::create($request->except('cover'));
+
+        // isi field cover jika ada cover yang diupload
+        if ($request->hasFile('cover')) {
+          // mengambil file yang diupload
+          $uploaded_cover = $request->file('cover');
+
+          // mengambil extension file
+          $extension = $uploaded_cover->getClientOriginalExtension();
+
+          // membuat nama file random berikut extension
+          $filename = md5(time()) . '.' . $extension;
+
+          // menyimpan cover ke folder public/img
+          $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'img';
+          $uploaded_cover->move($destinationPath, $filename);
+
+          // mengisi field cover di book dengan filename yang baru dibuat
+          $book->cover = $filename;
+          $book->save();
+        }
+
+        Session::flash("flash_notification", [
+          "level"=>"success",
+          "message"=>"Berhasil menyimpan $book->title"
+        ]);
+
+        return redirect()->route('books.index');
     }
 
     /**
