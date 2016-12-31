@@ -20,6 +20,11 @@ class User extends Authenticatable
         'name', 'email', 'password',
     ];
 
+    public function borrowLogs()
+    {
+        return $this->hasMany('App\BorrowLog');
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *
