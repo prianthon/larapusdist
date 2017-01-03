@@ -12,6 +12,16 @@ class BorrowLog extends Model
       'is_returned'=>'boolean',
     ];
 
+    public function scopeReturned($query)
+    {
+      return $query->where('is_returned', 1);
+    }
+
+    public function scopeBorrowed($query)
+    {
+      return $query->where('is_returned', 0);
+    }
+
     public function book()
     {
       return $this->belongsTo('App\Book');
