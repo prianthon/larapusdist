@@ -11,6 +11,17 @@ class Book extends Model
     {
       parent::boot();
 
+      self::deleting(function($book)
+      {
+        if($book->borrowLogs()->count() > 0) {
+          Session::flash("flash_notification", [
+            "level"=>"danger",
+            "message"=>"Buku $book->title sudah pernah dipinjam."
+          ]);
+          return false;
+        }
+      });
+
       self::updating(function($book)
       {
         if ($book->amount < $book->borrowed) {
@@ -27,7 +38,7 @@ class Book extends Model
     {
       return $this->borrowLogs()->borrowed()->count();
     }
-    
+
     protected $fillable = ['title', 'author_id', 'amount'];
 
     public function author()
