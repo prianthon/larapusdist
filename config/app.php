@@ -172,6 +172,9 @@ return [
         // yajra datatables
         Yajra\Datatables\DatatablesServiceProvider::class,
 
+        // captcha
+        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
