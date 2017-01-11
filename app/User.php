@@ -23,6 +23,10 @@ class User extends Authenticatable
         'name', 'email', 'password',
     ];
 
+    protected $casts = [
+      'is_verified' => 'boolean',
+    ];
+
     public function borrow(Book $book)
     {
       // cek apakah masih ada stock buku
