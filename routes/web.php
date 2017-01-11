@@ -3,6 +3,7 @@
 Route::get('/', 'GuestController@index');
 //
 Route::get('auth/verify/{token}', 'Auth\RegisterController@verify');
+Route::get('auth/send-verification', 'Auth\RegisterController@sendVerification');
 //
 Auth::routes();
 //

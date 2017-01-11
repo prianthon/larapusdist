@@ -94,4 +94,17 @@ class RegisterController extends Controller
         $user->sendVerification();
         return $user;
     }
+
+    public function sendVerification(Request $request)
+    {
+      $user = User::where('email', $request->get('email'))->first();
+      if ($user && !$user->is_verified) {
+        $user->sendVerification();
+        Session::flash("flash_notification", [
+          "level"=>"success",
+          "message"=>"Silahkan klik pada link aktivasi yang telah kami kirim."
+        ]);
+      }
+      return redirect('/login');
+    }
 }
