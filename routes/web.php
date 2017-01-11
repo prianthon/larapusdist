@@ -6,6 +6,8 @@ Route::get('auth/verify/{token}', 'Auth\RegisterController@verify');
 Route::get('auth/send-verification', 'Auth\RegisterController@sendVerification');
 // profile
 Route::get('settings/profile', 'SettingsController@profile');
+Route::get('settings/profile/edit', 'SettingsController@editProfile');
+Route::post('settings/profile', 'SettingsController@updateProfile');
 //
 Auth::routes();
 //

@@ -10,8 +10,14 @@ class SettingsController extends Controller
   {
     $this->middleware('auth');
   }
+
   public function profile()
   {
     return view('settings.profile');
+  }
+
+  public function editProfile()
+  {
+    return view('settings.edit-profile');
   }
 }
