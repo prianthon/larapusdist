@@ -2,6 +2,8 @@
 //
 Route::get('/', 'GuestController@index');
 //
+Route::get('auth/verify/{token}', 'Auth\RegisterController@verify');
+//
 Auth::routes();
 //
 Route::get('/home', 'HomeController@index');

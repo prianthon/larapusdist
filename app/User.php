@@ -8,6 +8,7 @@ use Laratrust\Traits\LaratrustUserTrait;
 use App\Book;
 use App\BorrowLog;
 use App\Exceptions\BookException;
+use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable
 {
@@ -48,6 +49,18 @@ class User extends Authenticatable
         return $this->hasMany('App\BorrowLog');
     }
 
+    public function sendVerification()
+    {
+      $user = $this;
+      $token = str_random(40);
+      $user->verification_token = $token;
+      $user->save();
+
+      Mail::send('auth.emails.verification', compact('user', 'token'), function ($m) use ($user) {
+        $m->to($user->email, $user->name)->subject('Verifikasi Akun Larapus');
+      });
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -56,4 +69,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function verify()
+    {
+      $this->is_verified = 1;
+      $this->verification_token = null;
+      $this->save();
+    }
 }
