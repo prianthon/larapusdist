@@ -175,6 +175,9 @@ return [
         // captcha
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
 
+        // excel
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
@@ -242,6 +245,8 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         // laratrust
         'Laratrust'   => Laratrust\LaratrustFacade::class,
+        // excel
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 
