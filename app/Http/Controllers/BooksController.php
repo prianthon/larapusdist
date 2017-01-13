@@ -176,11 +176,13 @@ class BooksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $book = Book::find($id);
         $cover = $book->cover;
         if(!$book->delete()) return redirect()->back();
+        // handle hapus buku via ajax
+        if ($request->ajax()) return response()->json(['id'=>$id]);
         // hapus cover lama, jika ada
         if ($cover) {
           $old_cover = $book->cover;
@@ -382,7 +384,7 @@ class BooksController extends Controller
         // buat buku baru
         $book = Book::create([
           'title'=>$row['judul'],
-          'author_id'=>$author_id,
+          'author_id'=>$author->id,
           'amount'=>$row['jumlah']
         ]);
 
@@ -408,7 +410,7 @@ class BooksController extends Controller
         "message"=>"Berhasil mengimport " . $books->count() . " buku."
       ]);
 
-      // tampilkan index buku
-      return redirect()->route('books.index');
+      // tampilkan halaman review buku
+      return view('books.import-review')->with(compact('books'));
     }
 }
