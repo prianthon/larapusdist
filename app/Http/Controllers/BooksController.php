@@ -15,6 +15,7 @@ use App\BorrowLog;
 use Illuminate\Support\Facades\Auth;
 use App\Exceptions\BookException;
 use Excel;
+use PDF;
 
 class BooksController extends Controller
 {
@@ -252,12 +253,40 @@ class BooksController extends Controller
       // validasi
       $this->validate($request, [
         'author_id'=>'required',
+        'type'=>'required|in:pdf,xls'
       ], [
         'author_id.required'=>'Anda belum memilih penulis. Pilih minimal 1 penulis.'
       ]);
 
       $books = Book::whereIn('id', $request->get('author_id'))->get();
 
+      //Excel::create('Data Buku Larapus', function($excel) use ($books) {
+        // set property
+      //  $excel->setTitle('Data Buku Larapus')->setCreator(Auth::user()->name);
+      //  $excel->sheet('Data Buku', function($sheet) use ($books) {
+      //    $row = 1;
+      //    $sheet->row($row, [
+      //      'Judul',
+      //      'Jumlah',
+      //      'Stok',
+      //      'Penulis',
+      //    ]);
+      //    foreach ($books as $book) {
+      //      $sheet->row(++$row, [
+      //        $book->title,
+      //        $book->amount,
+      //        $book->stock,
+      //        $book->author->name
+      //      ]);
+      //    }
+      //  });
+      //})->export('xls');
+      $handler = 'export' . ucfirst($request->get('type'));
+      return $this->$handler($books);
+    }
+
+    private function exportXls($books)
+    {
       Excel::create('Data Buku Larapus', function($excel) use ($books) {
         // set property
         $excel->setTitle('Data Buku Larapus')->setCreator(Auth::user()->name);
@@ -279,5 +308,11 @@ class BooksController extends Controller
           }
         });
       })->export('xls');
+    }
+
+    private function exportPdf($books)
+    {
+      $pdf = PDF::loadview('pdf.books', compact('books'));
+      return $pdf->download('books.pdf');
     }
 }

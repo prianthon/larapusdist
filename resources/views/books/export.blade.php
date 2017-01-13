@@ -28,6 +28,15 @@
               </div>
             </div>
 
+            <div class="form-group{!! $errors->has('type') ? 'has-error' : '' !!}">
+              {!! Form::label('type','Pilih Output',['class'=>'col-md-2 control-label']) !!}
+              <div class="col-md-4 checkbox">
+                {{ Form::radio('type','xls',true) }} Excel
+                {{ Form::radio('type','pdf') }} PDF
+                {!! $errors->first('type','<p class="help-block">:message</p>') !!}
+              </div>
+            </div>
+
             <div class="form-group">
               <div class="col-md-4 col-md-offset-2">
                 {!! Form::submit('Download',['class'=>'btn btn-primary']) !!}

@@ -178,6 +178,9 @@ return [
         // excel
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
+        // pdf
+        Barryvdh\DomPDF\ServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
@@ -247,6 +250,8 @@ return [
         'Laratrust'   => Laratrust\LaratrustFacade::class,
         // excel
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        // pdf
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 

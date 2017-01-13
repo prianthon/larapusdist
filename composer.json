@@ -12,7 +12,8 @@
         "yajra/laravel-datatables-oracle": "~6.0",
         "anhskohbo/no-captcha": "~2.0",
         "guzzlehttp/guzzle": "~6.0",
-        "maatwebsite/excel": "^2.1"
+        "maatwebsite/excel": "^2.1",
+        "barryvdh/laravel-dompdf": "^0.7.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
